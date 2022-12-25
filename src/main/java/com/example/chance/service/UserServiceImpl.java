@@ -3,19 +3,16 @@ package com.example.chance.service;
 import com.example.chance.model.User;
 import com.example.chance.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
-
-
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
-@Transactional
-@EnableJpaRepositories
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UsersRepository usersRepository;
 
@@ -24,6 +21,7 @@ public class UserServiceImpl implements UserService {
         this.usersRepository = usersRepository;
     }
     @Override
+    @Transactional
     public void addUser(User user) {
         usersRepository.save(user);
     }
@@ -40,11 +38,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void update(User updateUser) {
         usersRepository.save(updateUser);
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         usersRepository.deleteById(id);
     }
